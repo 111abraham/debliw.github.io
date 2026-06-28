@@ -31,6 +31,11 @@ body {
   cursor: none;
 }
 
+::selection {
+  background: rgba(245, 241, 232, 0.25);
+  color: #f5f1e8;
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);

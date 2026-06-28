@@ -66,6 +66,7 @@ export default function Home() {
             <p>Blender, Adobe Photoshop, Illustrator, and motion design.</p>
             <p>Crafting bold visual worlds with atmosphere, clarity, and impact.</p>
           </div>
+
         </div>
       </section>
 
