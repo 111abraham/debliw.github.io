@@ -52,7 +52,8 @@ export default function Home() {
             3D Artist / Designer
           </p>
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            Abraham Wondafrash
+            Abraham Wondafrashh
+
           </h1>
         </div>
 
