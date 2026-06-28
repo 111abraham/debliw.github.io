@@ -1,65 +1,78 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
+  const [smoothCursor, setSmoothCursor] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      setCursorPosition({ x: event.clientX, y: event.clientY });
+      setIsVisible(true);
+    };
+
+    const handleMouseLeave = () => setIsVisible(false);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
+  useEffect(() => {
+    let animationFrame = 0;
+
+    const animate = () => {
+      setSmoothCursor((prev) => ({
+        x: prev.x + (cursorPosition.x - prev.x) * 0.08,
+        y: prev.y + (cursorPosition.y - prev.y) * 0.08,
+      }));
+      animationFrame = window.requestAnimationFrame(animate);
+    };
+
+    animationFrame = window.requestAnimationFrame(animate);
+
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [cursorPosition]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="relative flex min-h-screen flex-col justify-between overflow-hidden bg-[#050505] px-6 py-8 text-[#f5f1e8] sm:px-8 lg:px-10">
+      <div
+        className={`pointer-events-none fixed z-50 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/90 bg-white shadow-[0_0_45px_rgba(255,255,255,0.35)] transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
+        style={{ left: smoothCursor.x, top: smoothCursor.y }}
+      />
+      <section className="flex flex-1 flex-col justify-center">
+        <div className="mb-8 max-w-3xl">
+          <p className="text-xs uppercase tracking-[0.4em] text-[#bdb7aa]">
+            3D Artist / Designer
           </p>
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+            Abraham Wondafrash
+          </h1>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="max-w-3xl space-y-6 text-left">
+          <p className="text-sm uppercase tracking-[0.35em] text-[#8f8670]">
+            Skills • What We Do
+          </p>
+          <div className="space-y-3 text-lg leading-8 text-[#d8d0c0]">
+            <p>3D design, product visualization, and visual storytelling.</p>
+            <p>Blender, Adobe Photoshop, Illustrator, and motion design.</p>
+            <p>Crafting bold visual worlds with atmosphere, clarity, and impact.</p>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="overflow-hidden border-t border-[#f5f1e8]/15 py-4">
+        <div className="animate-[marquee_20s_linear_infinite] whitespace-nowrap text-3xl font-semibold uppercase tracking-[0.4em] text-[#bdb7aa] sm:text-4xl lg:text-6xl">
+          WE&apos;RE THE ONES WHO&apos;RE GOING TO MAKE ART MAKE IT BIG • WE&apos;RE THE ONES WHO&apos;RE GOING TO MAKE ART MAKE IT BIG • WE&apos;RE THE ONES WHO&apos;RE GOING TO MAKE ART MAKE IT BIG •
+        </div>
+      </section>
+    </main>
   );
 }
