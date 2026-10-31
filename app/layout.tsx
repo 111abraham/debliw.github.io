@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,10 +14,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Abreham Wondafrash | 3D Artist",
+  title: "Abraham Wondafrash | 3D Artist & Visual Generalist | Debliw",
   description:
-    "Abreham Wondafrash is a 3D artist with skills in Blender and Adobe creative tools.",
-  keywords: ["3D artist", "Blender", "Adobe", "portfolio", "designer"],
+    "Abraham Wondafrash (Debliw) is a 3D artist, visual generalist, and additive manufacturing designer specializing in Blender photorealism, cultural heritage reconstruction (Lalibela), and interactive 3D web experiences.",
+  keywords: [
+    "Abraham Wondafrash",
+    "Abreham Wondafrash",
+    "Debliw",
+    "3D artist Ethiopia",
+    "Blender",
+    "Lalibela 3D",
+    "Additive Manufacturing",
+    "Inktober 2026",
+    "3D portfolio",
+    "Three.js",
+  ],
 };
 
 export default function RootLayout({
@@ -33,7 +42,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
-
       <Analytics />
     </html>
   );
