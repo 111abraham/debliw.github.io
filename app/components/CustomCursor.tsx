@@ -85,13 +85,13 @@ export default function CustomCursor() {
       {/* Outer Snappy Halo */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed top-0 left-0 z-50 rounded-full border border-white/35 opacity-0 transition-[width,height,border-color,background-color] duration-150 ease-out will-change-transform"
+        className="pointer-events-none fixed top-0 left-0 z-[99999] rounded-full border border-white/35 opacity-0 transition-[width,height,border-color,background-color] duration-150 ease-out will-change-transform"
         style={{ width: "28px", height: "28px" }}
       />
       {/* Instant 1:1 Center Dot */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-50 h-1.5 w-1.5 rounded-full bg-white opacity-0 shadow-[0_0_10px_rgba(255,255,255,0.8)] will-change-transform"
+        className="pointer-events-none fixed top-0 left-0 z-[99999] h-1.5 w-1.5 rounded-full bg-white opacity-0 shadow-[0_0_10px_rgba(255,255,255,0.8)] will-change-transform"
       />
     </>
   );

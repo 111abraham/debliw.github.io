@@ -146,6 +146,28 @@ export default function ThreeRotunda() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handlePrev, handleNext]);
 
+  // Prefetch immediate neighbor images in background for instantaneous transitions
+  useEffect(() => {
+    const total = INKTOBER_ARTWORKS.length;
+    if (total === 0) return;
+
+    const currentIdx = selectedArtwork
+      ? INKTOBER_ARTWORKS.findIndex((a) => a.id === selectedArtwork.id)
+      : activeDayIndex;
+
+    const prevIdx = (currentIdx - 1 + total) % total;
+    const nextIdx = (currentIdx + 1) % total;
+
+    const prefetch = (src: string) => {
+      if (typeof window === "undefined" || !src) return;
+      const img = new window.Image();
+      img.src = src;
+    };
+
+    prefetch(INKTOBER_ARTWORKS[prevIdx].image);
+    prefetch(INKTOBER_ARTWORKS[nextIdx].image);
+  }, [activeDayIndex, selectedArtwork]);
+
   // Three.js Scene Setup
   useEffect(() => {
     if (viewMode !== "3d") return;
@@ -603,13 +625,17 @@ export default function ThreeRotunda() {
                   }}
                   className="group relative cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-white/[0.02] p-2 transition-all duration-300 hover:border-[#c5a059]/60 hover:bg-white/[0.06] hover:scale-[1.02]"
                 >
-                  <div className="relative aspect-[3/4] w-full overflow-hidden rounded bg-black/40">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden rounded bg-black/60">
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/[0.02]">
+                      <div className="h-4 w-4 animate-spin rounded-full border border-white/20 border-t-[#c5a059]" />
+                    </div>
                     <Image
                       src={art.image}
                       alt={`Day ${art.day}: ${art.title}`}
                       fill
+                      loading="lazy"
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 16vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover relative z-10 transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
                   <div className="mt-2.5 flex items-center justify-between text-[10px] uppercase tracking-wider text-[#8f8670]">
@@ -640,12 +666,16 @@ export default function ThreeRotunda() {
             {/* Left: Big Artwork Image */}
             <div className="relative flex flex-1 items-center justify-center bg-black/50 p-4 sm:p-8">
               <div className="relative h-[48vh] w-full lg:h-[76vh]">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-[#c5a059]" />
+                </div>
                 <Image
                   src={selectedArtwork.image}
                   alt={`Day ${selectedArtwork.day}: ${selectedArtwork.title}`}
                   fill
                   priority
-                  className="object-contain"
+                  fetchPriority="high"
+                  className="object-contain relative z-10"
                 />
               </div>
 
