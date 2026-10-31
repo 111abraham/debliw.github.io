@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Compass, Sparkles, MessageCircle, ExternalLink, Trophy, Mail } from "lucide-react";
+import { ArrowUpRight, Compass, Sparkles, MessageCircle, ExternalLink } from "lucide-react";
 import Hero3DCanvas from "./components/Hero3DCanvas";
 import CustomCursor from "./components/CustomCursor";
 import ContactSection from "./components/ContactSection";
+import LiveChessStats from "./components/LiveChessStats";
 
 export default function Home() {
   return (
@@ -21,7 +22,7 @@ export default function Home() {
           <span className="text-xs text-[#8f8670]">&bull; Abraham Wondafrash</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-7 text-xs uppercase tracking-wider text-[#bdb7aa]">
+        <div className="hidden md:flex items-center gap-6 text-xs uppercase tracking-wider text-[#bdb7aa]">
           <Link
             href="/inktober-2026"
             className="flex items-center gap-1.5 text-[#f5f1e8] transition hover:text-[#c5a059]"
@@ -30,7 +31,22 @@ export default function Home() {
             <span>Inktober 3D</span>
           </Link>
           <a href="#work" className="transition hover:text-white">Selected Work</a>
-          <a href="#about" className="transition hover:text-white">About &amp; Chess</a>
+          <a
+            href="https://www.artstation.com/abraham111"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-[#13aff0]"
+          >
+            ArtStation
+          </a>
+          <a
+            href="https://www.upwork.com/freelancers/~016b490890d2d64f7f"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-[#14a800]"
+          >
+            Upwork
+          </a>
           <a
             href="https://t.me/artovw"
             target="_blank"
@@ -40,6 +56,7 @@ export default function Home() {
             <MessageCircle className="h-3 w-3" />
             <span>Telegram</span>
           </a>
+          <a href="#about" className="transition hover:text-white">Chess &amp; Bio</a>
           <a href="#contact" className="transition hover:text-white">Contact</a>
         </div>
 
@@ -69,7 +86,7 @@ export default function Home() {
         <div className="relative z-10 max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1 text-xs text-[#bdb7aa] mb-6">
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <span>Based in Ethiopia &bull; Open for freelance 3D &amp; design work</span>
+            <span>Based in Ethiopia &bull; 3D Generalist (Blender, CAD, Vectors)</span>
           </div>
 
           <h1 className="text-4xl font-bold tracking-tight text-[#f5f1e8] sm:text-6xl">
@@ -84,6 +101,7 @@ export default function Home() {
             Most of my time is spent in Blender, Photoshop, and exploring additive manufacturing. Whether it&apos;s recreating the monolithic rock-hewn churches of Lalibela, engineering a travel chess set, or finishing 31 original Inktober ink pieces—I like building things that feel tangible.
           </p>
 
+          {/* Action Links */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href="/inktober-2026"
@@ -95,21 +113,33 @@ export default function Home() {
             </Link>
 
             <a
-              href="https://t.me/artovw"
+              href="https://www.upwork.com/freelancers/~016b490890d2d64f7f"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-xs text-[#d8d0c0] transition hover:bg-white/10 hover:text-white"
+              className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-xs text-[#d8d0c0] transition hover:border-[#14a800] hover:text-[#14a800]"
             >
-              <MessageCircle className="h-4 w-4 text-[#229ED9]" />
-              <span>Telegram (@artovw)</span>
+              <span>Upwork Profile</span>
+              <ExternalLink className="h-3.5 w-3.5" />
             </a>
 
             <a
-              href={`mailto:abrish.wondafrash@gmail.com`}
-              className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-xs text-[#d8d0c0] transition hover:bg-white/10 hover:text-white"
+              href="https://www.artstation.com/abraham111"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-xs text-[#d8d0c0] transition hover:border-[#13aff0] hover:text-[#13aff0]"
             >
-              <Mail className="h-4 w-4" />
-              <span>abrish.wondafrash@gmail.com</span>
+              <span>ArtStation (@abraham111)</span>
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+
+            <a
+              href="https://t.me/artovw"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-xs text-[#d8d0c0] transition hover:border-[#229ED9] hover:text-[#229ED9]"
+            >
+              <MessageCircle className="h-4 w-4 text-[#229ED9]" />
+              <span>Telegram (@artovw)</span>
             </a>
           </div>
         </div>
@@ -181,11 +211,24 @@ export default function Home() {
       {/* Selected Work & Projects */}
       <section id="work" className="py-20 px-6 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-5xl">
-          <div className="mb-12">
-            <span className="text-xs uppercase tracking-wider text-[#8f8670]">Projects</span>
-            <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-[#f5f1e8]">
-              Selected Work
-            </h2>
+          <div className="mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="text-xs uppercase tracking-wider text-[#8f8670]">Portfolio</span>
+              <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-[#f5f1e8]">
+                Featured Projects
+              </h2>
+            </div>
+            <div className="mt-3 sm:mt-0 flex gap-3 text-xs">
+              <a
+                href="https://www.artstation.com/abraham111"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-[#13aff0] hover:underline"
+              >
+                <span>View more on ArtStation</span>
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
           </div>
 
           <div className="space-y-6">
@@ -193,12 +236,12 @@ export default function Home() {
             <div className="rounded-xl border border-white/10 bg-white/[0.02] p-6 sm:p-8 transition hover:border-white/20">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div>
-                  <span className="text-xs text-[#c5a059] uppercase tracking-wider">Cultural Architecture</span>
+                  <span className="text-xs text-[#c5a059] uppercase tracking-wider">Cultural Architecture &bull; 3D Model</span>
                   <h3 className="mt-1 text-xl font-bold text-[#f5f1e8]">
                     Bete Giorgis (Lalibela) &bull; Monolithic 3D Heritage
                   </h3>
                   <p className="mt-2 text-sm text-[#bdb7aa] leading-relaxed max-w-2xl">
-                    Detailed 3D reconstruction and CAD model of the famous cross-shaped monolithic rock church in Lalibela, Ethiopia. Designed in Blender and 3ds Max, and shared with the open design community on GrabCAD and MyMiniFactory.
+                    Detailed 3D reconstruction and CAD model of the famous cross-shaped monolithic rock-hewn church in Lalibela, Ethiopia. Designed in Blender and 3ds Max, and shared with the open 3D community on GrabCAD and MyMiniFactory.
                   </p>
                 </div>
                 <span className="rounded-full border border-white/15 px-3 py-1 text-xs text-[#8f8670] self-start whitespace-nowrap">
@@ -211,7 +254,7 @@ export default function Home() {
             <div className="rounded-xl border border-white/10 bg-white/[0.02] p-6 sm:p-8 transition hover:border-white/20">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div>
-                  <span className="text-xs text-[#c5a059] uppercase tracking-wider">Additive Manufacturing</span>
+                  <span className="text-xs text-[#c5a059] uppercase tracking-wider">Additive Manufacturing &bull; Product Design</span>
                   <h3 className="mt-1 text-xl font-bold text-[#f5f1e8]">
                     Compact 3D-Printable Travel Chess Set
                   </h3>
@@ -229,12 +272,12 @@ export default function Home() {
             <div className="rounded-xl border border-white/10 bg-white/[0.02] p-6 sm:p-8 transition hover:border-white/20">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div>
-                  <span className="text-xs text-[#229ED9] uppercase tracking-wider">Telegram &bull; Art of W</span>
+                  <span className="text-xs text-[#229ED9] uppercase tracking-wider">Telegram Channel &bull; Art of W</span>
                   <h3 className="mt-1 text-xl font-bold text-[#f5f1e8]">
-                    Daily 3D Turntables &amp; Renders (@artovw)
+                    Daily 3D Turntables, Renders &amp; WIPs (@artovw)
                   </h3>
                   <p className="mt-2 text-sm text-[#bdb7aa] leading-relaxed max-w-2xl">
-                    My personal channel where I post work-in-progress renders, 3D turntables, Inktober videos, and experiment files directly from Blender.
+                    My personal Telegram channel where I post work-in-progress renders, 3D turntables, Inktober process videos, and experiment files directly from Blender.
                   </p>
                 </div>
                 <a
@@ -252,7 +295,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Me & Chess */}
+      {/* About Me & Live Chess Stats */}
       <section id="about" className="border-t border-white/10 bg-[#080808] py-20 px-6 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-5xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -266,7 +309,7 @@ export default function Home() {
                   I&apos;m a 3D artist and freelance generalist based in Ethiopia. I work across 3D product rendering, hard-surface modeling, cultural heritage visualization, and vector graphics for machining.
                 </p>
                 <p>
-                  I prefer clean, intentional work over clutter. I take pride in good topology, believable materials, and designs that solve actual physical or visual problems.
+                  I take pride in good topology, believable materials, and designs that solve actual physical or visual problems.
                 </p>
               </div>
 
@@ -283,26 +326,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Chess Card */}
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
-              <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-[#c5a059]/10 p-3 text-[#c5a059]">
-                  <Trophy className="h-6 w-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-[#f5f1e8]">Chess Enthusiast</h3>
-                  <span className="text-xs text-[#8f8670]">Strategy &bull; Pattern Recognition</span>
-                </div>
-              </div>
-
-              <p className="mt-4 text-xs text-[#bdb7aa] leading-relaxed">
-                When I&apos;m not in Blender or drawing, you&apos;ll probably find me playing chess. The spatial reasoning and pattern recognition in chess deeply influences how I approach 3D geometry and structural design—which is what inspired me to engineer the 3D-printable travel chess set.
-              </p>
-
-              <div className="mt-5 rounded-lg border border-white/10 bg-black/40 p-3 text-xs text-[#8f8670]">
-                Always up for a game—reach out if you&apos;d like to play on Chess.com or Lichess!
-              </div>
-            </div>
+            {/* Live Chess Stats Component */}
+            <LiveChessStats />
           </div>
         </div>
       </section>
@@ -321,10 +346,19 @@ export default function Home() {
       <footer className="border-t border-white/10 bg-[#040404] px-6 py-8 sm:px-10">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 sm:flex-row text-xs text-[#8f8670]">
           <div>&copy; 2026 Abraham Wondafrash &bull; debliw.com</div>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-5">
             <Link href="/inktober-2026" className="transition hover:text-white">
               Inktober 3D
             </Link>
+            <a href="https://www.artstation.com/abraham111" target="_blank" rel="noopener noreferrer" className="transition hover:text-[#13aff0]">
+              ArtStation
+            </a>
+            <a href="https://www.upwork.com/freelancers/~016b490890d2d64f7f" target="_blank" rel="noopener noreferrer" className="transition hover:text-[#14a800]">
+              Upwork
+            </a>
+            <a href="https://www.instagram.com/abrahamwondafrash/" target="_blank" rel="noopener noreferrer" className="transition hover:text-[#e1306c]">
+              Instagram
+            </a>
             <a href="https://t.me/artovw" target="_blank" rel="noopener noreferrer" className="transition hover:text-[#229ED9]">
               Telegram
             </a>

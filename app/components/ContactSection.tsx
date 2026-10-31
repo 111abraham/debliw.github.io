@@ -84,23 +84,29 @@ export default function ContactSection() {
             {/* Profiles */}
             <div className="grid grid-cols-2 gap-3 pt-2">
               <a
-                href="https://www.upwork.com"
+                href="https://www.upwork.com/freelancers/~016b490890d2d64f7f"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg border border-white/10 bg-white/[0.02] p-3 text-xs transition hover:border-[#14a800] hover:text-[#14a800]"
+                className="group flex flex-col justify-between rounded-lg border border-white/10 bg-white/[0.02] p-3 text-xs transition hover:border-[#14a800] hover:bg-[#14a800]/5"
               >
-                <span className="font-semibold block text-[#f5f1e8]">Upwork</span>
-                <span className="text-[11px] text-[#8f8670]">Freelance Profile</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-[#f5f1e8] group-hover:text-[#14a800]">Upwork</span>
+                  <ExternalLink className="h-3.5 w-3.5 text-[#8f8670] group-hover:text-[#14a800]" />
+                </div>
+                <span className="text-[11px] text-[#8f8670] mt-1">Hire on Upwork</span>
               </a>
 
               <a
-                href="https://www.artstation.com"
+                href="https://www.artstation.com/abraham111"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg border border-white/10 bg-white/[0.02] p-3 text-xs transition hover:border-[#13aff0] hover:text-[#13aff0]"
+                className="group flex flex-col justify-between rounded-lg border border-white/10 bg-white/[0.02] p-3 text-xs transition hover:border-[#13aff0] hover:bg-[#13aff0]/5"
               >
-                <span className="font-semibold block text-[#f5f1e8]">ArtStation</span>
-                <span className="text-[11px] text-[#8f8670]">Portfolio Renders</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-[#f5f1e8] group-hover:text-[#13aff0]">ArtStation</span>
+                  <ExternalLink className="h-3.5 w-3.5 text-[#8f8670] group-hover:text-[#13aff0]" />
+                </div>
+                <span className="text-[11px] text-[#8f8670] mt-1">@abraham111</span>
               </a>
             </div>
           </div>
