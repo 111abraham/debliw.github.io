@@ -1,82 +1,97 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: -100, y: -100 });
-  const [smoothPos, setSmoothPos] = useState({ x: -100, y: -100 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isPointerDevice, setIsPointerDevice] = useState(false);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setIsPointerDevice(true);
-      setPosition({ x: e.clientX, y: e.clientY });
-      setIsVisible(true);
+    // Only run on devices with a mouse
+    if (!window.matchMedia("(pointer: fine)").matches) return;
 
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
+    let isVisible = false;
+
+    const dot = dotRef.current;
+    const ring = ringRef.current;
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      if (!isVisible) {
+        isVisible = true;
+        if (dot) dot.style.opacity = "1";
+        if (ring) ring.style.opacity = "1";
+      }
+
+      // Pinpoint dot moves with 0ms latency (hardware 1:1 direct tracking)
+      if (dot) {
+        dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+      }
+
+      // Check hover on interactive elements
       const target = e.target as HTMLElement | null;
-      if (
-        target?.closest("a") ||
-        target?.closest("button") ||
-        target?.closest("[role='button']") ||
-        target?.closest("input") ||
-        target?.closest("textarea")
-      ) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
+      const isInteractive = target?.closest("a, button, [role='button'], input, textarea, select");
+      if (ring) {
+        if (isInteractive) {
+          ring.style.width = "44px";
+          ring.style.height = "44px";
+          ring.style.borderColor = "#c5a059";
+          ring.style.backgroundColor = "rgba(197, 160, 89, 0.12)";
+        } else {
+          ring.style.width = "28px";
+          ring.style.height = "28px";
+          ring.style.borderColor = "rgba(255, 255, 255, 0.35)";
+          ring.style.backgroundColor = "transparent";
+        }
       }
     };
 
-    const handleMouseLeave = () => setIsVisible(false);
+    const onMouseLeave = () => {
+      isVisible = false;
+      if (dot) dot.style.opacity = "0";
+      if (ring) ring.style.opacity = "0";
+    };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
+    // Smooth snappy trailing ring via requestAnimationFrame without React rerenders
+    let animId = 0;
+    const updateRing = () => {
+      ringX += (mouseX - ringX) * 0.35; // Snappy 0.35 spring
+      ringY += (mouseY - ringY) * 0.35;
+      if (ring) {
+        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      }
+      animId = requestAnimationFrame(updateRing);
+    };
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mouseleave", onMouseLeave);
+    animId = requestAnimationFrame(updateRing);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseleave", onMouseLeave);
+      cancelAnimationFrame(animId);
     };
   }, []);
 
-  useEffect(() => {
-    if (!isPointerDevice) return;
-
-    let animId = 0;
-    const animate = () => {
-      setSmoothPos((prev) => ({
-        x: prev.x + (position.x - prev.x) * 0.12,
-        y: prev.y + (position.y - prev.y) * 0.12,
-      }));
-      animId = requestAnimationFrame(animate);
-    };
-
-    animId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animId);
-  }, [position, isPointerDevice]);
-
-  if (!isPointerDevice) return null;
-
   return (
     <>
-      {/* Outer Halo / Ring */}
+      {/* Outer Snappy Halo */}
       <div
-        className={`pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/40 transition-all duration-200 ${
-          isVisible ? "opacity-100" : "opacity-0"
-        } ${
-          isHovering
-            ? "h-14 w-14 border-[#c5a059] bg-[#c5a059]/10 shadow-[0_0_30px_rgba(197,160,89,0.3)] scale-110"
-            : "h-9 w-9 bg-white/5 shadow-[0_0_20px_rgba(255,255,255,0.15)] scale-100"
-        }`}
-        style={{ left: smoothPos.x, top: smoothPos.y }}
+        ref={ringRef}
+        className="pointer-events-none fixed top-0 left-0 z-50 rounded-full border border-white/35 opacity-0 transition-[width,height,border-color,background-color] duration-150 ease-out will-change-transform"
+        style={{ width: "28px", height: "28px" }}
       />
-      {/* Inner Pinpoint Dot */}
+      {/* Instant 1:1 Center Dot */}
       <div
-        className={`pointer-events-none fixed z-50 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white transition-opacity duration-150 ${
-          isVisible ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ left: position.x, top: position.y }}
+        ref={dotRef}
+        className="pointer-events-none fixed top-0 left-0 z-50 h-1.5 w-1.5 rounded-full bg-white opacity-0 shadow-[0_0_10px_rgba(255,255,255,0.8)] will-change-transform"
       />
     </>
   );
